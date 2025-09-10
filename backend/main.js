@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import connectToDatabase from "./config/database.js";
+import multer from "multer";
 
 //Routes
 import orderRouter from "./routes/order.routes.js";
@@ -18,8 +19,19 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-/************************* Connexion to Database **********************/
+//Connexion to Database
 connectToDatabase();
+
+//Config Multer
+app.locals.uploader = multer({
+  storage: multer.memoryStorage({}), // Storage at endpoint
+  limits: { fieldSize: 10 * 1024 * 1024 }, //Max Size 10 Mb
+  fileFilter: (req, file, cb) => {
+    //Accept only image
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only images are accepted"));
+  },
+});
 
 /************************* Endpoints **********************/
 app.use("/orders", orderRouter);
