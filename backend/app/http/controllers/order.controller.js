@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import Order from "../models/Order.js";
+import Order from "../../models/Order.js";
 
 //endpoint pour le front :
 //Checker l'authentification plus tard

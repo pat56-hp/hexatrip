@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const agencySchema = new Schema(
   {
-    adress: { type: String },
+    address: { type: String },
     phone: { type: String },
     photo: { type: String },
     title: { type: String },

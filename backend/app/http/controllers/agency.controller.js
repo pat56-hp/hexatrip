@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import Agency from "../models/Agency.js";
+import Agency from "../../models/Agency.js";
 
 //Get all agencies
 export const getAll = async (req, res) => {

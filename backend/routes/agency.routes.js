@@ -1,5 +1,9 @@
 import express from "express";
-import { getAll, show, store } from "../controllers/agency.controller.js";
+import {
+  getAll,
+  show,
+  store,
+} from "../app/http/controllers/agency.controller.js";
 
 const agencyRouter = express.Router();
 

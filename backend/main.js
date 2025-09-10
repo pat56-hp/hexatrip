@@ -1,14 +1,15 @@
 import express from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
-import connectToDatabase from "./database.js";
+import connectToDatabase from "./config/database.js";
 
 //Routes
 import orderRouter from "./routes/order.routes.js";
 import adviserRouter from "./routes/adviser.routes.js";
 import agencyRouter from "./routes/agency.routes.js";
+import tripRouter from "./routes/trip.routes.js";
 
-/************************* Config **********************/
+/************************* Init App **********************/
 const app = express();
 
 /************************* Config **********************/
@@ -24,6 +25,7 @@ connectToDatabase();
 app.use("/orders", orderRouter);
 app.use("/advisers", adviserRouter);
 app.use("/agencies", agencyRouter);
+app.use("/trips", tripRouter);
 
 //Capture des urls indefinies
 app.use((req, res) => {

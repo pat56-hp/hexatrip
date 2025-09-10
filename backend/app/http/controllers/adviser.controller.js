@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import Adviser from "../models/Adviser.js";
+import Adviser from "../../models/Adviser.js";
 
 //endpoint pour le front :
 

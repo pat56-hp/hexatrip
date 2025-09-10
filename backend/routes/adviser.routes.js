@@ -1,5 +1,9 @@
 import express from "express";
-import { getAll, show, store } from "../controllers/adviser.controller.js";
+import {
+  getAll,
+  show,
+  store,
+} from "../app/http/controllers/adviser.controller.js";
 
 const adviserRouter = express.Router();
 
