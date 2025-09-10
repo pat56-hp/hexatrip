@@ -33,7 +33,7 @@ export const store = async (req, res) => {
   const body = req.body;
   if (!body?.name || !body) {
     return res
-      .status(StatusCodes.BAD_REQUEST)
+      .status(StatusCodes.UNPROCESSABLE_ENTITY)
       .json({ error: "Name is required" });
   }
 

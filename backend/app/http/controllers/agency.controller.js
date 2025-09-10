@@ -48,7 +48,7 @@ export const show = async (req, res) => {
     const agency = await Agency.findById(id);
     if (!agency) {
       return res
-        .status(StatusCodes.NOT_FOUND)
+        .status(StatusCodes.BAD_REQUEST)
         .json({ message: "Agency not found" });
     }
 
