@@ -5,13 +5,14 @@ import fs from "fs/promises";
 /**
  * Upload SingleFIle
  * @param {File} file
+ * @param {String} id
  * @param {String} directory
  * @returns
  */
-const uploadFile = async (file, directory) => {
+const uploadFile = async (file, id, pathContent) => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const uploadPath = path.join(__dirname, directory, id, file.originalname);
+  const uploadPath = path.join(__dirname, pathContent, id, file.originalname);
 
   const directory = path.dirname(uploadPath);
   await fs.mkdir(directory, { recursive: true }); //create directory if it's not exist

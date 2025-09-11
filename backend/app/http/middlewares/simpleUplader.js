@@ -14,11 +14,11 @@ const simpleUpladerMiddleware = (req, res, next) => {
   singleFileUploader(req, res, (error) => {
     if (error instanceof multer.MulterError) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        error: error.message,
+        error: "Error uploaded Multer: " + error.message,
       });
     } else if (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        error: error.message,
+        error: "Error uploaded: " + error.message,
       });
     }
 

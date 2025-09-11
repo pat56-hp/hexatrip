@@ -70,6 +70,7 @@ export const update = async (req, res) => {
   try {
     const { id } = req.params;
     const body = req.body;
+    const file = req.file;
 
     //On verifie si le body contient un element
     if (!body) {
@@ -87,11 +88,16 @@ export const update = async (req, res) => {
     }
 
     //Gestion de l'image
-    const file = req.file;
     let photoName = null;
     if (file) {
       //Upload de l'image
-      photoName = uploadFile(file, "../../../public/images/agencies");
+      photoName = await uploadFile(
+        file,
+        id,
+        "../../public/images/agencies"
+      ).then((res) => {
+        return res;
+      });
     }
 
     //Sauvegarde des infos

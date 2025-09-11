@@ -58,7 +58,13 @@ export const update = async (req, res) => {
     let imageName = null;
     if (file) {
       //Upload de l'image
-      imageName = uploadFile(file, "../../../public/images/advisers");
+      imageName = await uploadFile(
+        file,
+        id,
+        "../../public/images/advisers"
+      ).then((res) => {
+        return res;
+      });
     }
 
     //update Adviser and save Adviser updated
