@@ -18,6 +18,7 @@ const PORT = 3000;
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static("public")); //Gestion des fichiers statics
 
 //Connexion to Database
 connectToDatabase();
