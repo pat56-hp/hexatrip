@@ -9,7 +9,7 @@ import { StatusCodes } from "http-status-codes";
  */
 const multipleUploaderMiddleware = (req, res, next) => {
   const uploader = req.app.locals.uploader;
-  const multipleUploader = uploader.array("images");
+  const multipleUploader = uploader.array("images", 10);
 
   multipleUploader(req, res, (error) => {
     if (error instanceof multer.MulterError)

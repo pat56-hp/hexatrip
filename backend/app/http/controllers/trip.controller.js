@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import Trip from "../../models/Trip.js";
 import { categoryCodes, tags } from "../../helpers/data.js";
+import { uploadFile } from "../../helpers/helper.js";
 
 /**
  * Recuperation de tous les trip
@@ -124,6 +125,7 @@ export const update = async (req, res) => {
   try {
     const { id } = req.params;
     const body = req.body;
+    const files = req.files;
 
     //Recuperation du trip
     const trip = await Trip.findById(id);
@@ -140,8 +142,27 @@ export const update = async (req, res) => {
       });
     }
 
+    //Upload et sauvegarde des images
+    let images = [];
+    if (files) {
+      let image = null;
+      await Promise.all(
+        files.map(async (file) => {
+          image = await uploadFile(file, id, "../../public/images/trips").then(
+            (res) => {
+              return res;
+            }
+          );
+
+          images.push(image);
+        })
+      );
+    }
+
     //Mise à jour du trip
-    const tripUpdated = await trip.set(body).save();
+    trip.set(body);
+    trip.images = images;
+    const tripUpdated = await trip.save();
     return res.status(StatusCodes.OK).json({
       data: tripUpdated,
       message: "Trip updated successfully",
