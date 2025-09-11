@@ -2,7 +2,7 @@ import multer from "multer";
 import { StatusCodes } from "http-status-codes";
 
 /**
- * Middleware pour la gestion des upload unique
+ * Middleware pour la gestion des uploads unique
  * @param {*} req
  * @param {*} res
  * @param {*} next
