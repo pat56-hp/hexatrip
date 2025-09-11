@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Agency from "../../models/Agency.js";
+import { uploadFile } from "../../helpers/helper.js";
 
 //Get all agencies
 export const getAll = async (req, res) => {
@@ -61,5 +62,51 @@ export const show = async (req, res) => {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Error getting agency" });
+  }
+};
+
+//update a single agency by ID
+export const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    //On verifie si le body contient un element
+    if (!body) {
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+        error: "Aucune donnée renseignée",
+      });
+    }
+
+    //On verifie si l'entite existe
+    const agency = await Agency.findById(id);
+    if (!agency) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: "Aucune donnée trouvée",
+      });
+    }
+
+    //Gestion de l'image
+    const file = req.file;
+    let photoName = null;
+    if (file) {
+      //Upload de l'image
+      photoName = uploadFile(file, "../../../public/images/agencies");
+    }
+
+    //Sauvegarde des infos
+    agency.set(body);
+    agency.photo = photoName;
+    await agency.save();
+
+    return res.status(StatusCodes.OK).json({
+      data: agency,
+      message: "Updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updated agency:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: `An error occurred while updating agency: ${error.message}`,
+    });
   }
 };

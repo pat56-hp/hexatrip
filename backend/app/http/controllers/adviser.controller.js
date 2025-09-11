@@ -1,9 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Adviser from "../../models/Adviser.js";
-import path from "path";
-
-import fs from "fs/promises";
-import { fileURLToPath } from "url";
+import { uploadFile } from "../../helpers/helper.js";
 
 //Get All advisers
 export const getAll = async (req, res) => {
@@ -60,20 +57,8 @@ export const update = async (req, res) => {
     const file = req.file;
     let imageName = null;
     if (file) {
-      //Sauvegarde du fichier
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = path.dirname(__filename);
-      const uploadPath = path.join(
-        __dirname, //current path
-        "../../../public/images/advisers",
-        id,
-        file.originalname
-      );
-      const directory = path.dirname(uploadPath); //Get directory of uploadPath
-      await fs.mkdir(directory, { recursive: true }); //create directory if it's not exist
-      await fs.writeFile(uploadPath, file.buffer); //write file on directory
-
-      imageName = file.originalname;
+      //Upload de l'image
+      imageName = uploadFile(file, "../../../public/images/advisers");
     }
 
     //update Adviser and save Adviser updated
