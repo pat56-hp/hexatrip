@@ -11,10 +11,12 @@ const validateRegister = [
   body("email").isEmail().withMessage("Should be a correct email"),
   body("password").isLength({ min: 4 }).withMessage("At least 4 characters"),
   (req, res, next) => {
-    const errors = validationResult[req];
+    //Gestion des erreurs
+    const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
-      return res.status(StatusCodes).json({
-        errors: errors.array(),
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: errors.array(),
       });
     }
     next();

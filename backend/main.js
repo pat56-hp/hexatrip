@@ -3,12 +3,14 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import connectToDatabase from "./config/database.js";
 import multer from "multer";
+import dotenv from "dotenv";
 
 //Routes
 import orderRouter from "./routes/order.routes.js";
 import adviserRouter from "./routes/adviser.routes.js";
 import agencyRouter from "./routes/agency.routes.js";
 import tripRouter from "./routes/trip.routes.js";
+import authRouter from "./routes/auth.routes.js";
 
 /************************* Init App **********************/
 const app = express();
@@ -19,6 +21,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public")); //Gestion des fichiers statics
+dotenv.config();
 
 //Connexion to Database
 connectToDatabase();
@@ -39,6 +42,7 @@ app.use("/orders", orderRouter);
 app.use("/advisers", adviserRouter);
 app.use("/agencies", agencyRouter);
 app.use("/trips", tripRouter);
+app.use("/auth", authRouter);
 
 //Capture des urls indefinies
 app.use((req, res) => {
