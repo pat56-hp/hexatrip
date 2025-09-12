@@ -11,6 +11,7 @@ import adviserRouter from "./routes/adviser.routes.js";
 import agencyRouter from "./routes/agency.routes.js";
 import tripRouter from "./routes/trip.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import profileRouter from "./routes/profile.routes.js";
 
 /************************* Init App **********************/
 const app = express();
@@ -43,6 +44,7 @@ app.use("/advisers", adviserRouter);
 app.use("/agencies", agencyRouter);
 app.use("/trips", tripRouter);
 app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
 
 //Capture des urls indefinies
 app.use((req, res) => {
