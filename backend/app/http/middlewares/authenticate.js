@@ -1,7 +1,6 @@
-import { body, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
-import User from "../../models/User";
+import User from "../../models/User.js";
 
 //Authenticate middleware
 const authenticateMiddleware = async (req, res, next) => {
