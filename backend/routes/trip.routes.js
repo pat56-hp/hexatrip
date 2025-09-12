@@ -9,6 +9,8 @@ import {
   update,
 } from "../app/http/controllers/trip.controller.js";
 import multipleUploaderMiddleware from "../app/http/middlewares/multipleUploader.js";
+import authenticateMiddleware from "../app/http/middlewares/authenticate.js";
+import authorizeMiddleware from "../app/http/middlewares/authorize.js";
 
 const tripRouter = express.Router();
 
@@ -18,6 +20,11 @@ tripRouter.post("/store", store);
 tripRouter.patch("/update/:id", multipleUploaderMiddleware, update);
 tripRouter.get("/show/:id", show);
 tripRouter.delete("/delete/:id", deleteOne);
-tripRouter.delete("/delete-all", deleteAll);
+tripRouter.delete(
+  "/delete-all",
+  authenticateMiddleware,
+  authorizeMiddleware(["admin"]),
+  deleteAll
+);
 
 export default tripRouter;

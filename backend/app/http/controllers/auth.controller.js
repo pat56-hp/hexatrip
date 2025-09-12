@@ -11,7 +11,7 @@ const saltRounds = 10;
  */
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     //On verifie si l'un des champs est manquant
     if (!username || !email || !password) {
@@ -35,6 +35,7 @@ export const register = async (req, res) => {
       userName: username,
       email: email,
       password: passwordHashed,
+      role,
     });
 
     return res.status(StatusCodes.CREATED).json({

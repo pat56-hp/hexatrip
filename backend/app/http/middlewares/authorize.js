@@ -1,9 +1,11 @@
 import { StatusCodes } from "http-status-codes";
 
+//Middleware authorize
 const authorizeMiddleware =
   (accessGrantedRole = []) =>
   (req, res, next) => {
-    if (accessGrantedRole.includes(req.user.role)) {
+    console.log(accessGrantedRole, req.user.role);
+    if (!accessGrantedRole.includes(req.user.role)) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
         error: "Access refused",
       });
