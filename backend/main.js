@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import connectToDatabase from "./config/database.js";
 import multer from "multer";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 //Routes
 import orderRouter from "./routes/order.routes.js";
@@ -23,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static("public")); //Gestion des fichiers statics
 dotenv.config();
+app.use(cookieParser());
 
 //Connexion to Database
 connectToDatabase();

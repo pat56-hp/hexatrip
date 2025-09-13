@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import User from "../../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 const saltRounds = 10;
 /**
@@ -92,17 +93,15 @@ export const login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    // strip user from password
-    const {
-      password: _,
-      __v,
-      updatedAt,
-      ...userWithoutSentivieData
-    } = user._doc;
+    //Envoi du cookie securisé
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000, // 1h
+    });
 
     return res.status(StatusCodes.OK).json({
-      data: userWithoutSentivieData,
-      token,
       message: "Login accepted",
     });
   } catch (error) {
@@ -111,4 +110,17 @@ export const login = async (req, res) => {
       error: "An error occurred during login : " + error.message,
     });
   }
+};
+
+/**
+ * Logout user
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+export const logout = async (req, res) => {
+  res.clearCookie("token");
+  return res.status(StatusCodes.OK).json({
+    message: "Logout success",
+  });
 };

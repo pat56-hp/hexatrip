@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../../models/User.js";
 import bcrypt from "bcrypt";
+import Order from "../../models/Order.js";
 
 /**
  * Get User profile data
@@ -40,15 +41,50 @@ export const updateProfile = async (req, res) => {
     }
 
     //On recupere l'utilisateur connecté & on le modifie
-    await User.findByIdAndUpdate(userLogged._id, body);
+    const user = await User.findByIdAndUpdate(userLogged._id, body, {
+      new: true,
+    }).select("-password -__v -updatedAt");
 
     return res.status(StatusCodes.OK).json({
+      data: user,
       message: "User updated successfully",
     });
   } catch (error) {
     console.error(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "An error occurred during updating : " + error.message,
+    });
+  }
+};
+
+/**
+ * Delete user
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+export const deleteProfile = async (req, res) => {
+  try {
+    const userLogged = req.user;
+
+    //delete user data
+    const deleted = await User.findByIdAndDelete(userLogged._id);
+    await Order.deleteMany({ email: userLogged.email });
+    if (!deleted) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: "Impossible de supprimer l'utilisateur",
+      });
+    }
+
+    //Logout de l'utilisateur
+    res.clearCookie("token");
+    return res.status(StatusCodes.OK).json({
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "An error occurred during deleting : " + error.message,
     });
   }
 };
