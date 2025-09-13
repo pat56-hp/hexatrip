@@ -9,22 +9,10 @@ import bcrypt from "bcrypt";
  * @returns
  */
 export const getProfile = async (req, res) => {
-  try {
-    const userAuthenticated = req.user;
-    const user = await User.findById(userAuthenticated._id).select(
-      "-_id -password -__v -updatedAt"
-    );
-
-    return res.status(StatusCodes.OK).json({
-      data: user,
-      message: "Profile data",
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error: "An error occurred during fetching : " + error.message,
-    });
-  }
+  return res.status(StatusCodes.OK).json({
+    data: req.user,
+    message: "Profile data",
+  });
 };
 
 /**
