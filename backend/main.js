@@ -13,6 +13,7 @@ import agencyRouter from "./routes/agency.routes.js";
 import tripRouter from "./routes/trip.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
+import checkoutRouter from "./routes/checkout.routes.js";
 
 /************************* Init App **********************/
 const app = express();
@@ -47,6 +48,7 @@ app.use("/agencies", agencyRouter);
 app.use("/trips", tripRouter);
 app.use("/auth", authRouter);
 app.use("/profile", profileRouter);
+app.use("create-checkout-order", checkoutRouter);
 
 //Capture des urls indefinies
 app.use((req, res) => {
