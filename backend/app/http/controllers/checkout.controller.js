@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { hotelTax } from "../../helpers/data";
+import { hotelTax } from "../../helpers/data.js";
 import Trip from "../../models/Trip.js";
 import Order from "../../models/Order.js";
 import Stripe from "stripe";
@@ -45,7 +45,7 @@ export const createStripeSession = async (req, res) => {
           : `${process.env.CLIENT_URL_LOCAL}/checkout`,
     });
 
-    //Normalement, Verification du paiement
+    /**Normalement, Verification du paiement**/
 
     //Ecriture de l'ordre d'achat dans Order
     if (!token) {

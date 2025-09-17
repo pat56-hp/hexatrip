@@ -5,6 +5,12 @@ import connectToDatabase from "./config/database.js";
 import multer from "multer";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import corsOptions from "./config/cors.js";
+import helmet from "helmet";
+import xssClean from "xss-clean";
+import rateLimit from "express-rate-limit";
+import ExpressMongoSanitize from "express-mongo-sanitize";
 
 //Routes
 import orderRouter from "./routes/order.routes.js";
@@ -14,6 +20,7 @@ import tripRouter from "./routes/trip.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import profileRouter from "./routes/profile.routes.js";
 import checkoutRouter from "./routes/checkout.routes.js";
+import rateLimitOptions from "./config/rate-limit.js";
 
 /************************* Init App **********************/
 const app = express();
@@ -26,6 +33,12 @@ app.use(bodyParser.json());
 app.use(express.static("public")); //Gestion des fichiers statics
 dotenv.config();
 app.use(cookieParser());
+//Security
+app.use(cors(corsOptions));
+app.use(helmet()); //Global security
+app.use(xssClean());
+app.use(rateLimit(rateLimitOptions));
+app.use(ExpressMongoSanitize({ replaceWith: "_" }));
 
 //Connexion to Database
 connectToDatabase();
